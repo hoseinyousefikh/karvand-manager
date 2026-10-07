@@ -141,12 +141,38 @@ def show_karvands():
     print("-" * 40)
 
 
+def find_karvand_by_id():
+    data = load_data()
+
+    while True:
+        try:
+            karvand_id = int(input("Karvand ID: "))
+            break
+        except ValueError:
+            print("Please enter a number.")
+
+    for karvand in data["karvands"]:
+        if karvand["id"] == karvand_id:
+            print("-" * 40)
+            print("ID:", karvand["id"])
+            print("Name:", karvand["name"])
+            print("Email:", karvand["email"])
+            print("City:", karvand["city"])
+            print("Education:", karvand["education"])
+            print("Skills:", karvand["skills"])
+            print("-" * 40)
+            return
+
+    print("No karvand found with this ID.")
+
+
 def main():
     load_data()
 
     while True:
         print("\n1. Add karvand")
         print("2. Show karvands")
+        print("3. Find karvand by ID")
         print("8. Exit")
 
         choice = input("Choice: ")
@@ -156,6 +182,9 @@ def main():
 
         elif choice == "2":
             show_karvands()
+
+        elif choice == "3":
+            find_karvand_by_id()
 
         elif choice == "8":
             print("Exit")
