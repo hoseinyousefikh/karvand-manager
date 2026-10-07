@@ -140,7 +140,6 @@ def find_karvand_by_id():
             return
     print("No karvand found with this ID.")
 
-
 def find_karvands_by_skill():
     data = load_data()
     skill_name = input("Skill name: ").strip()
