@@ -251,6 +251,27 @@ def edit_karvand():
     print("Karvand information edited successfully.")
 
 
+def delete_karvand():
+    data = load_data()
+
+    while True:
+        try:
+            karvand_id = int(input("Karvand ID: "))
+            break
+        except ValueError:
+            print("Please enter a number.")
+
+    for index, karvand in enumerate(data["karvands"]):
+        if karvand["id"] == karvand_id:
+            data["karvands"].pop(index)
+            save_data(data)
+
+            print("Karvand deleted successfully.")
+            return
+
+    print("No karvand found with this ID.")
+
+
 def main():
     load_data()
 
@@ -260,6 +281,7 @@ def main():
         print("3. Find karvand by ID")
         print("4. Find karvands by skill")
         print("5. Edit karvand")
+        print("6. Delete karvand")
         print("8. Exit")
 
         choice = input("Choice: ")
@@ -278,6 +300,9 @@ def main():
 
         elif choice == "5":
             edit_karvand()
+
+        elif choice == "6":
+            delete_karvand()
 
         elif choice == "8":
             print("Exit")
