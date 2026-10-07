@@ -114,17 +114,48 @@ def add_karvand():
     print("Karvand ID:", new_id)
 
 
+def show_karvands():
+    data = load_data()
+
+    if not data["karvands"]:
+        print("No karvands registered.")
+        return
+
+    for karvand in data["karvands"]:
+        print("-" * 40)
+        print("ID:", karvand["id"])
+        print("Name:", karvand["name"])
+        print("Email:", karvand["email"])
+        print("City:", karvand["city"])
+
+        print("Degree:", karvand["education"]["degree"])
+        print("Field of study:", karvand["education"]["field"])
+
+        print("Skills:")
+
+        for skill in karvand["skills"]:
+            print("  Name:", skill["name"])
+            print("  Level:", skill["level"])
+            print("  Score:", skill["score"])
+
+    print("-" * 40)
+
+
 def main():
     load_data()
 
     while True:
         print("\n1. Add karvand")
+        print("2. Show karvands")
         print("8. Exit")
 
         choice = input("Choice: ")
 
         if choice == "1":
             add_karvand()
+
+        elif choice == "2":
+            show_karvands()
 
         elif choice == "8":
             print("Exit")
