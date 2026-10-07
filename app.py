@@ -41,8 +41,7 @@ def load_data():
             "karvands": []
         }
 
-        with open(FILE, "w", encoding="utf-8") as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
+        save_data(data)
 
         return data
 
@@ -54,11 +53,85 @@ def save_data(data):
         json.dump(data, file, indent=4, ensure_ascii=False)
 
 
-def main():
+def get_next_id(karvands):
+    if not karvands:
+        return 1
+
+    max_id = max(karvand["id"] for karvand in karvands)
+    return max_id + 1
+
+
+def get_skill_score():
+    while True:
+        try:
+            score = int(input("Skill score (0 to 100): "))
+
+            if 0 <= score <= 100:
+                return score
+
+            print("Score must be between 0 and 100.")
+
+        except ValueError:
+            print("Please enter a number.")
+
+
+def add_karvand():
     data = load_data()
 
-    print("Karvand management program")
-    print("Number of registered Karvands:", len(data["karvands"]))
+    name = input("Full name: ")
+    email = input("Email: ")
+    city = input("City: ")
+    degree = input("Degree: ")
+    field = input("Field of study: ")
+    skill_name = input("Skill name: ")
+    skill_level = input("Skill level: ")
+    score = get_skill_score()
+
+    new_id = get_next_id(data["karvands"])
+
+    karvand = {
+        "id": new_id,
+        "name": name,
+        "email": email,
+        "city": city,
+        "education": {
+            "degree": degree,
+            "field": field
+        },
+        "skills": [
+            {
+                "name": skill_name,
+                "level": skill_level,
+                "score": score
+            }
+        ]
+    }
+
+    data["karvands"].append(karvand)
+    save_data(data)
+
+    print("Karvand added successfully.")
+    print("Karvand ID:", new_id)
+
+
+def main():
+    load_data()
+
+    while True:
+        print("\n1. Add karvand")
+        print("8. Exit")
+
+        choice = input("Choice: ")
+
+        if choice == "1":
+            add_karvand()
+
+        elif choice == "8":
+            print("Exit")
+            break
+
+        else:
+            print("Invalid option.")
 
 
 if __name__ == "__main__":
