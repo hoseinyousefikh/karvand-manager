@@ -166,6 +166,91 @@ def find_karvand_by_id():
     print("No karvand found with this ID.")
 
 
+def find_karvands_by_skill():
+    data = load_data()
+
+    skill_name = input("Skill name: ").strip()
+
+    found = False
+
+    for karvand in data["karvands"]:
+        for skill in karvand["skills"]:
+            if skill["name"].lower() == skill_name.lower():
+                print("-" * 40)
+                print("ID:", karvand["id"])
+                print("Name:", karvand["name"])
+                print("Email:", karvand["email"])
+                print("City:", karvand["city"])
+                print("Education:", karvand["education"])
+                print("Skills:", karvand["skills"])
+                found = True
+                break
+
+    if not found:
+        print("No karvand found with this skill.")
+
+
+def edit_karvand():
+    data = load_data()
+
+    while True:
+        try:
+            karvand_id = int(input("Karvand ID: "))
+            break
+        except ValueError:
+            print("Please enter a number.")
+
+    karvand = None
+
+    for item in data["karvands"]:
+        if item["id"] == karvand_id:
+            karvand = item
+            break
+
+    if karvand is None:
+        print("No karvand found with this ID.")
+        return
+
+    print("\nWhat do you want to edit?")
+    print("1. Email")
+    print("2. City")
+    print("3. Degree")
+    print("4. Field of study")
+    print("5. Edit multiple fields")
+
+    choice = input("Choice: ")
+
+    if choice == "1":
+        karvand["email"] = input("New email: ")
+
+    elif choice == "2":
+        karvand["city"] = input("New city: ")
+
+    elif choice == "3":
+        karvand["education"]["degree"] = input("New degree: ")
+
+    elif choice == "4":
+        karvand["education"]["field"] = input("New field of study: ")
+
+    elif choice == "5":
+        email = input("New email: ")
+        city = input("New city: ")
+        degree = input("New degree: ")
+        field = input("New field of study: ")
+
+        karvand["email"] = email
+        karvand["city"] = city
+        karvand["education"]["degree"] = degree
+        karvand["education"]["field"] = field
+
+    else:
+        print("Invalid option.")
+        return
+
+    save_data(data)
+    print("Karvand information edited successfully.")
+
+
 def main():
     load_data()
 
@@ -173,6 +258,8 @@ def main():
         print("\n1. Add karvand")
         print("2. Show karvands")
         print("3. Find karvand by ID")
+        print("4. Find karvands by skill")
+        print("5. Edit karvand")
         print("8. Exit")
 
         choice = input("Choice: ")
@@ -185,6 +272,12 @@ def main():
 
         elif choice == "3":
             find_karvand_by_id()
+
+        elif choice == "4":
+            find_karvands_by_skill()
+
+        elif choice == "5":
+            edit_karvand()
 
         elif choice == "8":
             print("Exit")
